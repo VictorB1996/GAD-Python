@@ -15,4 +15,4 @@ print("\nOdd numbers using slice: ")
 print(ascending_list[::2])
 
 print("\nMultiples of 3: ")
-print([element for element in ascending_list if element % 3 == 0])
+print(ascending_list[2::3])
