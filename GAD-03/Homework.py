@@ -1,4 +1,4 @@
-print("Function with undefinite numbers of params which returns the sum of integers and floats")
+print("Function with indefinite numbers of params which returns the sum of integers and floats")
 def custom_sum(*args):
     total = 0
     for parameter in args:
