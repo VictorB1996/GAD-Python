@@ -1,0 +1,50 @@
+[
+  {
+    "position": "1",
+    "image": "imagini-stiri/echipa/32/5e53726d5ac83echipa__0005_Layer-8.png",
+    "name": "FC CFR 1907 CLUJ",
+    "games": "10",
+    "goals": "10",
+    "points": "54"
+  },
+  {
+    "position": "2",
+    "image": "imagini-stiri/echipa/32/5e537262549aaechipa__0007_Layer-6.png",
+    "name": "FC FCSB",
+    "games": "10",
+    "goals": "-1",
+    "points": "45"
+  },
+  {
+    "position": "3",
+    "image": "imagini-stiri/echipa/32/5e53728820ce1echipa__0011_Layer-2.png",
+    "name": "UNIVERSITATEA CRAIOVA",
+    "games": "10",
+    "goals": "-2",
+    "points": "41"
+  },
+  {
+    "position": "4",
+    "image": "imagini-stiri/echipa/32/5e5372b3b92e3echipa__0010_Layer-3.png",
+    "name": "SEPSI OSK",
+    "games": "10",
+    "goals": "3",
+    "points": "40"
+  },
+  {
+    "position": "5",
+    "image": "imagini-stiri/echipa/32/5e5372c76a33bechipa__0004_Layer-9.png",
+    "name": "ACADEMICA CLINCENI",
+    "games": "10",
+    "goals": "-5",
+    "points": "33"
+  },
+  {
+    "position": "6",
+    "image": "imagini-stiri/echipa/32/5e53728024e04echipa__0002_Layer-11.png",
+    "name": "FC BOTOSANI",
+    "games": "10",
+    "goals": "-5",
+    "points": "31"
+  }
+]
