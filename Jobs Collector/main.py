@@ -24,7 +24,5 @@ def main():
         else:
             print("Unknown instruction. Try again.\n")
 
-
-
 if __name__ == "__main__":
     main()

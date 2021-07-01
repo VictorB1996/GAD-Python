@@ -6,42 +6,54 @@ from tqdm import tqdm
 
 
 def get_jobs():
+
     MAIN_URL = "https://www.ejobs.ro"
     columns = ["job_title", "company_name", "link_to_job"]
     jobs = []
+    counter = 0
 
     main_page = requests.get(MAIN_URL)
     soup = BeautifulSoup(main_page.content, features="html.parser")
 
-    if not os.path.isfile("jobs.json"):
+    if not os.path.isfile("jobs.json") or get_file_length("jobs.json") > 0:
+        try:
+            with open("jobs.json", "r") as read_file:
+                jobs = json.load(read_file)
+        except FileNotFoundError as e:
+            jobs = []
+
         jobs_container = soup.find(id="home-jobs").find_all("li", class_="jobitem gridview")
         for item in jobs_container:
             job_box = item.find(class_="job-box").find(class_="jobitem-body").find_all(["h2", "h3"])
             details = [job_box[0].text, job_box[1].text,
                        valid_link(job_box[0].find("a", href=True, class_="title dataLayerItemLink")["href"], MAIN_URL)]
+
             jobs_dict = {
                 col: data for col, data in zip(columns, details)
             }
-            jobs.append(jobs_dict)
+
+            if not jobs_dict["link_to_job"] in [job["link_to_job"] for job in jobs]:
+                jobs.append(jobs_dict)
+                counter += 1
+        print(f"Found {counter} new job(s).\n")
 
         for job in tqdm(jobs, total=len(jobs), desc="Collecting jobs..."):
-            soup = BeautifulSoup(requests.get(job["link_to_job"]).content, features="html.parser")
-            job_content_image = soup.find(class_="jobad-wrapper jobad--customised clearfix")
-            if job_content_image is not None:  # If the description of the job is an image:
-                job_content = job_content_image.find(id="customJobImageContainer").find("img", alt=True)
-                job["description"] = job_content["alt"]
-            else:  # The description of the job is actual text in page
-                job_contents_text = soup.find(class_="jobad-wrapper jobad--normal clearfix") \
-                    .find(class_="jobad-panel active animated").find(class_="row"). \
-                    find("section").find_all(class_="jobad-content-block")
-                for descr in job_contents_text:
-                    job["description"] = "".join(descr.text)
+            if "description" not in job:
+                soup = BeautifulSoup(requests.get(job["link_to_job"]).content, features="html.parser")
+                job_content_image = soup.find(class_="jobad-wrapper jobad--customised clearfix")
+                if job_content_image is not None:  # If the description of the job is an image:
+                    job_content = job_content_image.find(id="customJobImageContainer").find("img", alt=True)
+                    job["description"] = job_content["alt"]
+                else:  # The description of the job is actual text in page
+                    job_contents_text = soup.find(class_="jobad-wrapper jobad--normal clearfix") \
+                        .find(class_="jobad-panel active animated").find(class_="row"). \
+                        find("section").find_all(class_="jobad-content-block")
+                    for descr in job_contents_text:
+                        job["description"] = "".join(descr.text)
 
         with open("jobs.json", mode="w") as json_file:
             json.dump(jobs, json_file, indent=2)
         print(f"Done. Scraper has collected {len(jobs)} jobs.\n")
-    else:
-        print("Updating...")
 
 
 def get_matching_jobs():
@@ -69,3 +81,6 @@ def valid_link(link, MAIN_URL):
         return MAIN_URL + link
     return link
 
+def get_file_length(file):
+    with open(file, "r") as f:
+        return len(f.readlines())
