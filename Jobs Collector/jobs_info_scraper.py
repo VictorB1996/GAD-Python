@@ -45,7 +45,7 @@ def get_jobs():
 
 
 def get_matching_jobs():
-    if os.path.isfile("./jobs.json"):
+    if os.path.isfile("jobs.json"):
         with open("jobs.json", "r") as json_file:
             jobs = json.load(json_file)
 
